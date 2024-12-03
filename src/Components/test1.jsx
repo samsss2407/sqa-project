@@ -27,25 +27,36 @@ const SignupPage = () => {
     e.preventDefault();
     const newErrors = {};
 
-    if (!formData.name) {
+    // Validate Name
+    if (!formData.name.trim()) {
       newErrors.name = "Full name is required.";
     }
 
-    if (!validateEmail(formData.email)) {
+    // Validate Email
+    if (!formData.email.trim()) {
+      newErrors.email = "Email address is required.";
+    } else if (!validateEmail(formData.email)) {
       newErrors.email = "Invalid email address.";
     }
 
-    if (!validatePassword(formData.password)) {
+    // Validate Password
+    if (!formData.password.trim()) {
+      newErrors.password = "Password is required.";
+    } else if (!validatePassword(formData.password)) {
       newErrors.password =
         "Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character.";
     }
 
-    if (formData.password !== formData.confirmPassword) {
+    // Validate Confirm Password
+    if (!formData.confirmPassword.trim()) {
+      newErrors.confirmPassword = "Please confirm your password.";
+    } else if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = "Passwords do not match.";
     }
 
     setErrors(newErrors);
 
+    // If no errors, proceed with form submission
     if (Object.keys(newErrors).length === 0) {
       // Save user credentials to localStorage
       localStorage.setItem(
@@ -110,7 +121,6 @@ const SignupPage = () => {
                 className={`w-full px-4 py-2 border-b ${
                   errors.name ? "border-red-500" : "border-gray-300"
                 } focus:outline-none focus:border-purple-500`}
-                required
               />
               {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
             </div>
@@ -130,7 +140,6 @@ const SignupPage = () => {
                 className={`w-full px-4 py-2 border-b ${
                   errors.email ? "border-red-500" : "border-gray-300"
                 } focus:outline-none focus:border-purple-500`}
-                required
               />
               {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
             </div>
@@ -150,7 +159,6 @@ const SignupPage = () => {
                 className={`w-full px-4 py-2 border-b ${
                   errors.password ? "border-red-500" : "border-gray-300"
                 } focus:outline-none focus:border-purple-500`}
-                required
               />
               {errors.password && (
                 <p className="text-red-500 text-sm">{errors.password}</p>
@@ -172,7 +180,6 @@ const SignupPage = () => {
                 className={`w-full px-4 py-2 border-b ${
                   errors.confirmPassword ? "border-red-500" : "border-gray-300"
                 } focus:outline-none focus:border-purple-500`}
-                required
               />
               {errors.confirmPassword && (
                 <p className="text-red-500 text-sm">{errors.confirmPassword}</p>
